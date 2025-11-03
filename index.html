@@ -8,7 +8,7 @@
     <!-- Load Inter font --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Load Lucide Icons for Timeline --><script src="https://unpkg.com/lucide-react@0.378.0/dist/umd/lucide.js"></script>
+    <!-- Load Lucide Icons for Timeline --><script src="https://unpkg.com/lucide@0.378.0/dist/umd/lucide.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -153,17 +153,22 @@
                         <!-- Method 1: Digital Form --><div class="flex-1 flex items-center gap-4 p-4 bg-[#EFF4FF] border border-[#B1C9FF] rounded-xl">
                             <!-- Icon --><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text text-[#2a63e4] flex-shrink-0"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
                             <div>
-                                <h3 class="font-semibold text-lg text-[#223165]">Digital Form (Fastest)</h3>
-                                <p class="text-[#354095]">Complete the quick interest form at our booth.</p>
+                                <h3 class="font-semibold text-lg text-[#223165]">Digital Form</h3>
+                                <p class="text-[#354095]">Complete the quick interest form below.</p>
                             </div>
                         </div>
                         <!-- Method 2: AMOE --><div class="flex-1 flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
                             <!-- Icon --><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contact text-[#546681] flex-shrink-0"><path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"/><rect width="18" height="18" x="3" y="4" rx="2"/><circle cx="12" cy="10" r="2"/><line x1="8" x2="8" y1="2" y2="4"/><line x1="16" x2="16" y1="2" y2="4"/></svg>
                             <div>
-                                <h3 class="font-semibold text-lg text-[#193042]">Business Card Drop (AMOE)</h3>
-                                <p class="text-[#546681]">Drop your card or a paper slip in the entry box.</p>
+                                <h3 class="font-semibold text-lg text-[#193042]">Business Card Drop</h3>
+                                <p class="text-[#546681]">Drop your card or a paper slip in the entry box at our booth.</p>
                             </div>
                         </div>
+                    </div>
+                    <!-- ADDED BUTTON --><div class="mt-6 text-center">
+                        <a href="https://go.maverickre.com/2025-unlock-conference" target="_blank" rel="noopener noreferrer" class="inline-block bg-[#2a63e4] text-white text-lg font-bold px-8 py-3 rounded-lg shadow-md hover:bg-[#354095] transition-colors duration-200">
+                            Enter Now
+                        </a>
                     </div>
                     <p class="text-center text-[#546681] mt-4 text-sm">One entry automatically enters you into all three prize tiers. No purchase or demo required.</p>
                 </div>
@@ -337,7 +342,10 @@
         <!-- Footer / Disclaimer --><footer class="p-6 md:p-8 mt-8 text-center bg-[#D9ECBE]">
             <p class="text-xs text-[#193042] max-w-4xl mx-auto">
                 NO PURCHASE OR DEMO REQUIRED TO ENTER OR WIN. A PURCHASE OR DEMO WILL NOT INCREASE YOUR CHANCES OF WINNING, BUT ATTENDING A DEMO WILL EARN BONUS ENTRIES FOR TIERS 2 & 3. VOID WHERE PROHIBITED. Open to licensed real-estate professionals attending Unlock Conference 2025, 18+. Odds depend on number of eligible entries.
-                Apple®, MacBook Pro®, and iPhone® are registered trademarks of Apple Inc. Apple® is not a sponsor and is not affiliated with this promotion. See Official Rules at Booth #3 for full details, entry methods, prize descriptions, and restrictions.
+                Apple®, MacBook Pro®, and iPhone® are registered trademarks of Apple Inc. Apple® is not a sponsor and is not affiliated with this promotion. See 
+                <!-- ADDED HYPERLINK -->
+                <a href="https://go.maverickre.com/unlock-conference-2025-maverick-giveaway-rules" target="_blank" rel="noopener noreferrer" class="font-bold text-[#004EFF] underline hover:text-[#1c1763]">Official Rules</a> 
+                at Booth #3 for full details, entry methods, prize descriptions, and restrictions.
             </p>
         </footer>
 
@@ -355,8 +363,8 @@
                 CONFERENCE_END: new Date('2025-11-05T17:00:00-08:00'), // 5:00 PM PST
                 DEMO_WINDOW_END: new Date('2025-11-14T23:59:59-08:00'), // 11:59 PM PST
                 TIER_2_3_ANNOUNCE: new Date('2025-11-21T23:59:59-08:00'), // End of day
-                // *** This is the "current" time, set per user request ***
-                NOW: new Date('2025-11-02T23:14:28-08:00') // November 2nd, 11:14 PM PST
+                // *** UPDATED "current" time per user request ***
+                NOW: new Date('2025-11-03T06:30:00-08:00') // November 3rd, 6:30 AM PST
                 // To test other dates, uncomment one of the lines below:
                 // NOW: new Date('2025-10-31T15:35:00-07:00') // Before start
                 // NOW: new Date('2025-11-03T10:00:00-08:00') // During conference, bonus active
