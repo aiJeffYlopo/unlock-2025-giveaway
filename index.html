@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#EFF4FF]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaverickRE Unlock 2025 Giveaway</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load Lucide Icons for Timeline --><script src="https://unpkg.com/lucide-react@0.378.0/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom gradient for the header using primary brand blues */
+        .header-gradient {
+            background: linear-gradient(90deg, #1c1763 0%, #223165 50%, #2a63e4 100%);
+        }
+        /* Custom shadow for a subtle lift */
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        /* --- STYLES FOR TIMELINE WIDGET --- */
+        .timeline-container {
+            position: relative;
+            width: 100%;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Vertical Bar (default) */
+        .timeline-bar {
+            position: absolute;
+            width: 8px;
+            background-color: #cbd5e1; /* gray-300 */
+            top: 28px; /* Start below first node */
+            bottom: 28px; /* End above last node */
+            left: 24px; /* w-14/2 - 8px/2 = 28px - 4px = 24px */
+            transform: translateX(0);
+            z-index: 1;
+        }
+        .timeline-progress {
+            position: absolute;
+            width: 8px;
+            background-color: #3b82f6; /* blue-500 */
+            top: 28px;
+            left: 24px;
+            transform: translateX(0);
+            z-index: 2;
+            transition: height 0.5s ease-out;
+            height: 0%; /* Will be set by JS */
+        }
+
+        /* Horizontal Bar (md and up) */
+        @media (min-width: 768px) {
+            .timeline-container {
+                margin-top: 4rem;
+                margin-bottom: 2rem;
+            }
+            .timeline-bar {
+                height: 8px;
+                width: auto;
+                top: 50%;
+                bottom: auto;
+                left: 0;
+                right: 0;
+                transform: translateY(-50%);
+            }
+            .timeline-progress {
+                height: 8px;
+                width: 0%; /* Will be set by JS */
+                top: 50%;
+                left: 0;
+                right: auto;
+                bottom: auto;
+                transform: translateY(-50%);
+                transition: width 0.5s ease-out;
+            }
+        }
+
+        .timeline-milestone {
+            position: relative;
+            z-index: 3;
+            /* Default: vertical layout */
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            .timeline-milestone {
+                display: block;
+                align-items: normal;
+                width: auto;
+            }
+        }
+
+        .milestone-node {
+            width: 56px; /* w-14 */
+            height: 56px; /* h-14 */
+            border-radius: 9999px; /* rounded-full */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Prevent node from shrinking in vertical flex */
+        }
+        .milestone-node.active {
+            background-color: #3b82f6; /* blue-500 */
+            border-color: #93c5fd; /* blue-300 */
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+        }
+        .milestone-node.inactive {
+            background-color: #94a3b8; /* slate-400 */
+        }
+
+        /* Card: vertical layout */
+        .milestone-card {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            transform: none;
+            width: auto;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            margin-left: 16px; /* Space from node */
+            margin-top: 8px; /* Align with top of node */
+        }
+        
+        /* Card: horizontal layout (md and up) */
+        @media (min-width: 768px) {
+            .milestone-card {
+                position: absolute;
+                bottom: 80px; /* Position above the node */
+                left: 50%;
+                transform: translateX(-50%);
+                width: 200px;
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+
+        .milestone-card.active {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+        @media (min-width: 768px) {
+            .milestone-card.active {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .milestone-card h3 {
+            font-weight: 600;
+            color: #1e3a8a; /* blue-800 */
+            font-size: 0.875rem;
+        }
+        .milestone-card p {
+            font-size: 0.8rem;
+            color: #475569; /* slate-600 */
+            line-height: 1.4;
+        }
+        /* Triangle connector for the card */
+        .milestone-card::after {
+            content: '';
+            position: absolute;
+            top: 14px; /* Align with node center */
+            left: -20px; /* 10px border + 10px gap */
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid white;
+            filter: drop-shadow(-2px 0 1px rgba(0,0,0,0.03));
+        }
+        .milestone-card.active::after {
+            border-right-color: #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        /* Triangle for horizontal (md and up) */
+        @media (min-width: 768px) {
+            .milestone-card::after {
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 10px solid white;
+                border-bottom: none;
+                filter: drop-shadow(0 2px 1px rgba(0,0,0,0.03));
+            }
+            .milestone-card.active::after {
+                border-top-color: #3b82f6;
+                border-right-color: transparent;
+            }
+        }
+        /* --- END OF TIMELINE STYLES --- */
+
+        /* Style for centered milestone text on mobile */
+        @media (max-width: 767px) {
+            #milestone-3-text {
+                margin-left: -68px; /* (w-48 - w-14) / 2 = (192px - 56px) / 2 = 136px / 2 = 68px */
+            }
+        }
+    </style>
+</head>
+<body class="min-h-full antialiased">
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header --><header class="header-gradient text-white p-6 md:p-10 text-center rounded-b-xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#1c1763]/90 via-[#223165]/90 to-[#2a63e4]/90 z-0"></div>
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- Logo now inverted to white --><img src="https://storage.pardot.com/923023/1722278010WdyqcrQl/MaverickRE_Logo_Big_No_Space.png" alt="MaverickRE Logo" class="h-16 md:h-20 mb-4 invert">
+                <h1 class="text-3xl md:text-5xl font-extrabold mb-2">Unlock 2025 Giveaway</h1>
+                <p class="text-lg md:text-xl text-[#CBDBFF]">Win Big at Booth #3! One Entry, Three Tiers of Prizes.</p>
+            </div>
+        </header>
+
+        <!-- Main Content --><main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full">
+
+            <!-- How to Enter Section --><section class="mb-8 md:mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-[#CBDBFF] max-w-3xl mx-auto">
+                    <h2 class="text-2xl md:text-3xl font-bold text-[#1c1763] text-center mb-5">How to Enter (All Tiers)</h2>
+                    <div class="flex flex-col md:flex-row gap-6 justify-center">
+                        <!-- Method 1: Digital Form --><div class="flex-1 flex items-center gap-4 p-4 bg-[#EFF4FF] border border-[#B1C9FF] rounded-xl">
+                            <!-- Icon --><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text text-[#2a63e4] flex-shrink-0"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                            <div>
+                                <h3 class="font-semibold text-lg text-[#223165]">Digital Form (Fastest)</h3>
+                                <p class="text-[#354095]">Complete the quick interest form at our booth.</p>
+                            </div>
+                        </div>
+                        <!-- Method 2: AMOE --><div class="flex-1 flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                            <!-- Icon --><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contact text-[#546681] flex-shrink-0"><path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"/><rect width="18" height="18" x="3" y="4" rx="2"/><circle cx="12" cy="10" r="2"/><line x1="8" x2="8" y1="2" y2="4"/><line x1="16" x2="16" y1="2" y2="4"/></svg>
+                            <div>
+                                <h3 class="font-semibold text-lg text-[#193042]">Business Card Drop (AMOE)</h3>
+                                <p class="text-[#546681]">Drop your card or a paper slip in the entry box.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center text-[#546681] mt-4 text-sm">One entry automatically enters you into all three prize tiers. No purchase or demo required.</p>
+                </div>
+            </section>
+
+            <!-- Prize Tiers Section --><section class="mb-8 md:mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#1c1763] text-center mb-6">The Prizes (Over $20,000 ARV)</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <!-- Tier 1: Grand Prize --><div class="flex flex-col bg-white rounded-2xl shadow-lg border-4 border-[#2a63e4] card-shadow overflow-hidden">
+                        <div class="p-6">
+                            <span class="inline-block bg-[#2a63e4] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 1 - GRAND PRIZE</span>
+                            <h3 class="text-2xl font-bold text-[#1c1763] mb-2">1-Year Revenue Accelerator Pro</h3>
+                            <p class="text-2xl font-bold text-[#004EFF] mb-3">1 WINNER</p>
+                            <p class="text-[#354095] font-semibold text-lg">Up to $17,700 Value (Each)</p>
+                        </div>
+                        <div class="bg-[#EFF4FF] p-6 mt-auto">
+                            <h4 class="font-bold text-lg text-[#1c1763] mb-3 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-[#2a63e4]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 2 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 0 0 0-3-3.87"/><path d="M16 3.13a4 0 0 1 0 7.75"/></svg>
+                                Bonus: Referrals
+                            </h4>
+                            <p class="text-[#223165] mb-4">Refer a friend. If they win, <strong class="font-bold">you win a matching prize!</strong> (Limit 1 matched prize). Add "Referred by [Your Name]" to their entry.</p>
+                            <div class="bg-white border border-[#B1C9FF] rounded-lg p-3">
+                                <p class="font-semibold text-[#1c1763]">Winner Drawn:</p>
+                                <p class="text-[#004EFF] font-medium">Wed, Nov 5 @ 5:00 PM (at booth)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 2: MacBook Pro --><div class="flex flex-col bg-white rounded-2xl shadow-lg border border-[#CBDBFF] card-shadow overflow-hidden">
+                        <div class="p-6">
+                            <span class="inline-block bg-[#546681] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 2</span>
+                            <h3 class="text-2xl font-bold text-[#193042] mb-2">14" MacBook Pro®</h3>
+                            <p class="text-2xl font-bold text-[#546681] mb-3">1 WINNER</p>
+                            <p class="text-[#546681] font-semibold text-lg">Up to $1,800 Value</p>
+                        </div>
+                        <div class="bg-[#EFF4FF] p-6 mt-auto">
+                            <h4 class="font-bold text-lg text-[#193042] mb-3 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up text-[#F0AE00]"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                                Bonus: Demo Entries
+                            </h4>
+                            <ul class="space-y-2 mb-4">
+                                <li class="flex items-center gap-2 text-[#193042]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-plus text-[#6BB100]"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="M16 19h6"/><path d="M19 16v6"/></svg>
+                                    <strong class="font-semibold text-[#559E00]">+5 Entries</strong> for <strong class="font-bold">booking</strong> a demo (by Nov 5)
+                                </li>
+                                <li class="flex items-center gap-2 text-[#193042]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-check text-[#6BB100]"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="m16 20 2 2 4-4"/></svg>
+                                    <strong class="font-semibold text-[#559E00]">+20 Entries</strong> for <strong class="font-bold">attending</strong> a demo (by Nov 14)
+                                </li>
+                            </ul>
+                            <div class="bg-white border border-[#B1C9FF] rounded-lg p-3">
+                                <p class="font-semibold text-[#193042]">Winner Drawn:</p>
+                                <p class="text-[#546681] font-medium">By Friday, Nov 21</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 3: iPhone --><div class="flex flex-col bg-white rounded-2xl shadow-lg border border-[#CBDBFF] card-shadow overflow-hidden">
+                        <div class="p-6">
+                            <span class="inline-block bg-[#546681] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 3</span>
+                            <h3 class="text-2xl font-bold text-[#193042] mb-2">iPhone® 17 Pro / Pro Max</h3>
+                            <p class="text-2xl font-bold text-[#546681] mb-3">1 WINNER</p>
+                            <p class="text-[#546681] font-semibold text-lg">Up to $1,325 Value</p>
+                        </div>
+                        <div class="bg-[#EFF4FF] p-6 mt-auto">
+                            <h4 class="font-bold text-lg text-[#193042] mb-3 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up text-[#F0AE00]"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                                Bonus: Demo Entries
+                            </h4>
+                            <ul class="space-y-2 mb-4">
+                                <li class="flex items-center gap-2 text-[#193042]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-plus text-[#6BB100]"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="M16 19h6"/><path d="M19 16v6"/></svg>
+                                    <strong class="font-semibold text-[#559E00]">+5 Entries</strong> for <strong class="font-bold">booking</strong> a demo (by Nov 5)
+                                </li>
+                                <li class="flex items-center gap-2 text-[#193042]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-check text-[#6BB100]"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="m16 20 2 2 4-4"/></svg>
+                                    <strong class="font-semibold text-[#559E00]">+20 Entries</strong> for <strong class="font-bold">attending</strong> a demo (by Nov 14)
+                                </li>
+                            </ul>
+                            <div class="bg-white border border-[#B1C9FF] rounded-lg p-3">
+                                <p class="font-semibold text-[#193042]">Winner Drawn:</p>
+                                <p class="text-[#546681] font-medium">By Friday, Nov 21</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Timeline Section --><section class="mb-8 md:mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#1c1763] text-center mb-6">Giveaway Timeline</h2>
+                <!-- This container is from the user's provided HTML snippet -->
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-10">
+                    <div class="py-4 md:py-16">
+                        <div class="timeline-container">
+                            <!-- Timeline Bar & Progress -->
+                            <div class="timeline-bar"></div>
+                            <div id="timeline-progress" class="timeline-progress" style="width: 0%; height: 0%;"></div>
+                            
+                            <!-- Milestones -->
+                            <!-- Changed flex container -->
+                            <div class="flex flex-col md:flex-row md:justify-between space-y-12 md:space-y-0">
+                                
+                                <!-- Milestone 1: Start -->
+                                <div class="timeline-milestone flex-shrink-0" data-milestone="start">
+                                    <div class="milestone-node inactive" id="node-start"> <!-- Node first for vertical flex alignment -->
+                                        <i data-lucide="clock" class="text-white w-6 h-6"></i>
+                                    </div>
+                                    <div class="milestone-card" id="card-start">
+                                        <h3>Nov 2, 12:00 AM PT</h3>
+                                        <p>Promotion & Entry Period Begins (All Tiers)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Milestone 2: Bonus Entries -->
+                                <div class="timeline-milestone flex-shrink-0" data-milestone="bonus">
+                                    <div class="milestone-node inactive" id="node-bonus">
+                                        <i data-lucide="briefcase" class="text-white w-6 h-6"></i>
+                                    </div>
+                                    <div class="milestone-card" id="card-bonus">
+                                        <h3>Nov 2–5</h3>
+                                        <p>Bonus Entries: Book a Demo (+5)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Milestone 3: Conference End -->
+                                <div class="timeline-milestone flex-shrink-0" data-milestone="end">
+                                    <!-- Wrapper for node and text -->
+                                    <div class="flex-shrink-0 w-14 md:w-auto md:relative flex flex-col items-center">
+                                        <div class="milestone-node inactive" id="node-end" style="flex-shrink: 0;">
+                                            <i data-lucide="calendar-check" class="text-white w-6 h-6"></i>
+                                        </div>
+                                        <!-- New Text Block -->
+                                        <div id="milestone-3-text" class="w-48 text-center md:absolute md:top-16 md:left-1/2 md:-translate-x-1/2">
+                                            <p class="text-lg font-bold text-[#1c1763] pt-2">Tier 1 Winner Announced!</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="milestone-card" id="card-end">
+                                        <h3>Nov 5, 5:00 PM PT</h3>
+                                        <p>Entry Period Closes.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Milestone 4: Demo Window End -->
+                                <div class="timeline-milestone flex-shrink-0" data-milestone="demo-end">
+                                    <div class="milestone-node inactive" id="node-demo-end">
+                                        <i data-lucide="award" class="text-white w-6 h-6"></i>
+                                    </div>
+                                    <div class="milestone-card" id="card-demo-end">
+                                        <h3>Nov 14, 11:59 PM PT</h3>
+                                        <p>Tier 2 & 3 Bonus Window Ends (+20 for attending)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Milestone 5: Winners Announced -->
+                                <div class="timeline-milestone flex-shrink-0" data-milestone="announce">
+                                    <div class="milestone-node inactive" id="node-announce">
+                                        <i data-lucide="trophy" class="text-white w-6 h-6"></i>
+                                    </div>
+                                    <div class="milestone-card" id="card-announce">
+                                        <h3>By Nov 21</h3>
+                                        <p>Tier 2 & 3 Winners Announced</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Eligibility Section --><section class="max-w-2xl mx-auto">
+                <!-- Eligibility --><div class="bg-white p-6 rounded-2xl shadow-lg border border-[#CBDBFF]">
+                    <h3 class="text-xl font-bold text-[#1c1763] mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle text-[#6BB100]"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                        Who Can Enter?
+                    </h3>
+                    <p class="text-[#354095]">
+                        Open to attendees of the <strong>Unlock Conference 2025</strong> who are <strong>licensed real-estate professionals</strong>, 18 years or older.
+                    </p>
+                    <p class="text-[#546681] text-sm mt-3">
+                        Employees/agents of Sponsor and their household members are not eligible. Void where prohibited.
+                    </p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer / Disclaimer --><footer class="p-6 md:p-8 mt-8 text-center bg-[#D9ECBE]">
+            <p class="text-xs text-[#193042] max-w-4xl mx-auto">
+                NO PURCHASE OR DEMO REQUIRED TO ENTER OR WIN. A PURCHASE OR DEMO WILL NOT INCREASE YOUR CHANCES OF WINNING, BUT ATTENDING A DEMO WILL EARN BONUS ENTRIES FOR TIERS 2 & 3. VOID WHERE PROHIBITED. Open to licensed real-estate professionals attending Unlock Conference 2025, 18+. Odds depend on number of eligible entries.
+                Apple®, MacBook Pro®, and iPhone® are registered trademarks of Apple Inc. Apple® is not a sponsor and is not affiliated with this promotion. See Official Rules at Booth #3 for full details, entry methods, prize descriptions, and restrictions.
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPT FOR TIMELINE WIDGET -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            lucide.createIcons();
+
+            // --- Define Key Dates ---
+            // Note: We use the system's local time interpretation of these strings.
+            // For a production app, we'd parse with explicit timezones.
+            // PT transitions from PDT (UTC-7) to PST (UTC-8) on Nov 2, 2025.
+            const DATES = {
+                START: new Date('2025-11-02T00:00:00-07:00'), // 12:00 AM PDT
+                CONFERENCE_END: new Date('2025-11-05T17:00:00-08:00'), // 5:00 PM PST
+                DEMO_WINDOW_END: new Date('2025-11-14T23:59:59-08:00'), // 11:59 PM PST
+                TIER_2_3_ANNOUNCE: new Date('2025-11-21T23:59:59-08:00'), // End of day
+                // *** This is the "current" time, set per user request ***
+                NOW: new Date('2025-10-31T15:35:00-07:00') // October 31st, 3:35 PM PDT
+                // To test other dates, uncomment one of the lines below:
+                // NOW: new Date('2025-11-03T10:00:00-08:00') // During conference
+                // NOW: new Date('2025-11-10T10:00:00-08:00') // Demo window open
+                // NOW: new Date('2025-11-20T10:00:00-08:00') // After demo, before announce
+                // NOW: new Date('2025-11-22T10:00:00-08:00') // All over
+            };
+            
+            const TOTAL_DURATION = DATES.TIER_2_3_ANNOUNCE.getTime() - DATES.START.getTime();
+
+            // --- UI Elements ---
+            const timelineProgress = document.getElementById('timeline-progress');
+            
+            // --- New variable ---
+            let isMobile = window.innerWidth < 768;
+            window.addEventListener('resize', () => {
+                isMobile = window.innerWidth < 768;
+                updateTimeline(true); // Force update on resize
+            });
+
+            // --- Helper Functions ---
+            function setActiveMilestone(milestoneId) {
+                // Remove 'active' from all
+                document.querySelectorAll('.milestone-node, .milestone-card').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.classList.contains('milestone-node')) {
+                        el.classList.add('inactive');
+                    }
+                });
+
+                if (milestoneId) {
+                    const node = document.getElementById(`node-${milestoneId}`);
+                    const card = document.getElementById(`card-${milestoneId}`);
+                    if (node && card) {
+                        node.classList.add('active');
+                        node.classList.remove('inactive');
+                        card.classList.add('active');
+                    }
+                }
+            }
+
+            function setProgress(currentDate) {
+                if (currentDate < DATES.START) {
+                    return 0;
+                }
+                if (currentDate > DATES.TIER_2_3_ANNOUNCE) {
+                    return 100;
+                }
+                const elapsed = currentDate.getTime() - DATES.START.getTime();
+                return (elapsed / TOTAL_DURATION) * 100;
+            }
+
+            // --- Main Logic ---
+            let lastProgressPercent = -1; // To avoid re-running on resize if unchanged
+            function updateTimeline(force = false) {
+                const now = DATES.NOW;
+                let progressPercent = 0;
+                let activeMilestone = null;
+
+                if (now < DATES.START) {
+                    activeMilestone = null;
+                    progressPercent = 0;
+
+                } else if (now >= DATES.START && now <= DATES.CONFERENCE_END) {
+                    activeMilestone = 'bonus';
+                    progressPercent = setProgress(now);
+
+                } else if (now > DATES.CONFERENCE_END && now <= DATES.DEMO_WINDOW_END) {
+                    activeMilestone = 'demo-end';
+                    progressPercent = setProgress(now);
+
+                } else if (now > DATES.DEMO_WINDOW_END && now <= DATES.TIER_2_3_ANNOUNCE) {
+                    activeMilestone = 'announce';
+                    progressPercent = setProgress(now);
+
+                } else {
+                    activeMilestone = 'announce';
+                    progressPercent = 100;
+                }
+                
+                // Only update DOM if state changed or forced
+                if (progressPercent !== lastProgressPercent || force) {
+                    setActiveMilestone(activeMilestone);
+                
+                    // Visually "complete" past milestones
+                    if (now >= DATES.START) document.getElementById('node-start').classList.add('active');
+                    if (now >= DATES.CONFERENCE_END) document.getElementById('node-end').classList.add('active');
+                    if (now >= DATES.DEMO_WINDOW_END) document.getElementById('node-demo-end').classList.add('active');
+                    if (now >= DATES.TIER_2_3_ANNOUNCE) document.getElementById('node-announce').classList.add('active');
+
+                    // Update progress bar
+                    if (isMobile) {
+                        timelineProgress.style.width = '8px';
+                        timelineProgress.style.height = `${progressPercent}%`;
+                    } else {
+                        timelineProgress.style.height = '8px';
+                        timelineProgress.style.width = `${progressPercent}%`;
+                    }
+                    lastProgressPercent = progressPercent;
+                }
+            }
+
+            // Initial load
+            updateTimeline();
+        });
+    </script>
+</body>
+</html>
