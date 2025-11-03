@@ -23,193 +23,113 @@
         }
 
         /* --- STYLES FOR TIMELINE WIDGET --- */
-        .timeline-container {
+        .new-timeline-wrapper {
             position: relative;
-            width: 100%;
-            margin-top: 4rem;
-            margin-bottom: 2rem;
+            padding-left: 50px; /* Space for the line and dots */
+            padding-right: 20px;
+            margin: 0 auto;
+            max-width: 600px; /* Adjust as needed */
         }
-        
-        /* Vertical Bar (default) */
-        .timeline-bar {
+
+        .new-timeline-line {
             position: absolute;
-            width: 8px;
+            left: 20px; /* Aligns with dot center */
+            top: 0;
+            bottom: 0;
+            width: 4px;
             background-color: #cbd5e1; /* gray-300 */
-            top: 28px; /* Start below first node */
-            bottom: 28px; /* End above last node */
-            left: 24px; /* w-14/2 - 8px/2 = 28px - 4px = 24px */
-            transform: translateX(0);
-            z-index: 1;
+            border-radius: 2px;
         }
-        .timeline-progress {
+
+        .new-timeline-progress-line {
             position: absolute;
-            width: 8px;
+            left: 20px;
+            top: 0;
+            width: 4px;
             background-color: #3b82f6; /* blue-500 */
-            top: 28px;
-            left: 24px;
-            transform: translateX(0);
-            z-index: 2;
+            border-radius: 2px;
             transition: height 0.5s ease-out;
-            height: 0%; /* Will be set by JS */
+            height: 0%;
         }
 
-        /* Horizontal Bar (md and up) */
-        @media (min-width: 768px) {
-            .timeline-container {
-                margin-top: 4rem;
-                margin-bottom: 2rem;
-            }
-            .timeline-bar {
-                height: 8px;
-                width: auto;
-                top: 50%;
-                bottom: auto;
-                left: 0;
-                right: 0;
-                transform: translateY(-50%);
-            }
-            .timeline-progress {
-                height: 8px;
-                width: 0%; /* Will be set by JS */
-                top: 50%;
-                left: 0;
-                right: auto;
-                bottom: auto;
-                transform: translateY(-50%);
-                transition: width 0.5s ease-out;
-            }
-        }
-
-        .timeline-milestone {
+        .new-timeline-item {
             position: relative;
-            z-index: 3;
-            /* Default: vertical layout */
+            margin-bottom: 2.5rem; /* Space between items */
+            padding-left: 30px; /* Space for the dot */
             display: flex;
-            align-items: flex-start;
-            width: 100%;
-        }
-        @media (min-width: 768px) {
-            .timeline-milestone {
-                display: block;
-                align-items: normal;
-                width: auto;
-            }
+            align-items: center;
         }
 
-        .milestone-node {
-            width: 56px; /* w-14 */
-            height: 56px; /* h-14 */
-            border-radius: 9999px; /* rounded-full */
+        .new-timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 50%; /* Vertically center with the content */
+            transform: translateY(-50%);
+            width: 40px; /* Larger dot */
+            height: 40px;
+            background-color: #94a3b8; /* Inactive color */
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 4px solid white;
             transition: all 0.3s ease;
-            flex-shrink: 0; /* Prevent node from shrinking in vertical flex */
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+            z-index: 5;
         }
-        .milestone-node.active {
+
+        .new-timeline-dot.active {
             background-color: #3b82f6; /* blue-500 */
             border-color: #93c5fd; /* blue-300 */
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
-        }
-        .milestone-node.inactive {
-            background-color: #94a3b8; /* slate-400 */
+            box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.3);
         }
 
-        /* Card: vertical layout */
-        .milestone-card {
-            position: relative;
-            bottom: auto;
-            left: auto;
-            transform: none;
-            width: auto;
-            padding: 12px;
-            border-radius: 8px;
+        .new-timeline-content {
+            flex-grow: 1;
+            padding: 1rem 1.25rem; /* Larger padding for the card */
             background-color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 12px; /* More rounded */
             border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08); /* Stronger shadow */
             transition: all 0.3s ease;
-            margin-left: 16px; /* Space from node */
-            margin-top: 8px; /* Align with top of node */
-        }
-        
-        /* Card: horizontal layout (md and up) */
-        @media (min-width: 768px) {
-            .milestone-card {
-                position: absolute;
-                bottom: 80px; /* Position above the node */
-                left: 50%;
-                transform: translateX(-50%);
-                width: 200px;
-                margin-left: 0;
-                margin-top: 0;
-            }
+            text-align: left; /* Ensure text is left-aligned within the card */
+            margin-left: 20px; /* Offset from the dot */
         }
 
-        .milestone-card.active {
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
-        }
-        @media (min-width: 768px) {
-            .milestone-card.active {
-                transform: translateX(-50%) translateY(-5px);
-            }
+        .new-timeline-item.active .new-timeline-content {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
         }
 
-        .milestone-card h3 {
-            font-weight: 600;
-            color: #1e3a8a; /* blue-800 */
-            font-size: 0.875rem;
-        }
-        .milestone-card p {
-            font-size: 0.8rem;
-            color: #475569; /* slate-600 */
-            line-height: 1.4;
-        }
-        /* Triangle connector for the card */
-        .milestone-card::after {
-            content: '';
-            position: absolute;
-            top: 14px; /* Align with node center */
-            left: -20px; /* 10px border + 10px gap */
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 10px solid white;
-            filter: drop-shadow(-2px 0 1px rgba(0,0,0,0.03));
-        }
-        .milestone-card.active::after {
-            border-right-color: #3b82f6;
-            transition: all 0.3s ease;
+        .new-timeline-content h3 {
+            font-size: 1.25rem; /* Larger date font */
+            font-weight: 700;
+            color: #1c1763; /* Darker blue */
+            margin-bottom: 0.5rem;
         }
 
-        /* Triangle for horizontal (md and up) */
-        @media (min-width: 768px) {
-            .milestone-card::after {
-                top: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                border-top: 10px solid white;
-                border-bottom: none;
-                filter: drop-shadow(0 2px 1px rgba(0,0,0,0.03));
-            }
-            .milestone-card.active::after {
-                border-top-color: #3b82f6;
-                border-right-color: transparent;
-            }
+        .new-timeline-content p {
+            font-size: 1rem; /* Larger description font */
+            color: #475569;
+            line-height: 1.5;
         }
-        /* --- END OF TIMELINE STYLES --- */
 
-        /* Style for centered milestone text on mobile */
-        @media (max-width: 767px) {
-            #milestone-3-text {
-                margin-left: -68px; /* (w-48 - w-14) / 2 = (192px - 56px) / 2 = 136px / 2 = 68px */
-            }
+        .new-timeline-announcement {
+            font-size: 1.5rem; /* Even larger for announcements */
+            font-weight: 800;
+            color: #2a63e4; /* Primary blue for announcements */
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
         }
+
+        .new-timeline-info-text {
+            font-size: 1.1rem; /* Larger info text */
+            color: #354095;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        /* --- END OF NEW TIMELINE STYLES --- */
     </style>
 </head>
 <body class="min-h-full antialiased">
@@ -255,7 +175,7 @@
 
                     <!-- Tier 1: Grand Prize --><div class="flex flex-col bg-white rounded-2xl shadow-lg border-4 border-[#2a63e4] card-shadow overflow-hidden">
                         <div class="p-6">
-                            <span class="inline-block bg-[#2a63e4] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 1 - GRAND PRIZE</span>
+                            <span class="inline-block bg-[#2a63e4] text-white text-lg font-bold px-4 py-2 rounded-full mb-4">TIER 1 - GRAND PRIZE</span>
                             <h3 class="text-2xl font-bold text-[#1c1763] mb-2">1-Year Revenue Accelerator Pro</h3>
                             <p class="text-2xl font-bold text-[#004EFF] mb-3">1 WINNER</p>
                             <p class="text-[#354095] font-semibold text-lg">Up to $17,700 Value (Each)</p>
@@ -275,7 +195,7 @@
 
                     <!-- Tier 2: MacBook Pro --><div class="flex flex-col bg-white rounded-2xl shadow-lg border border-[#CBDBFF] card-shadow overflow-hidden">
                         <div class="p-6">
-                            <span class="inline-block bg-[#546681] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 2</span>
+                            <span class="inline-block bg-[#546681] text-white text-lg font-bold px-4 py-2 rounded-full mb-4">TIER 2</span>
                             <h3 class="text-2xl font-bold text-[#193042] mb-2">14" MacBook Pro®</h3>
                             <p class="text-2xl font-bold text-[#546681] mb-3">1 WINNER</p>
                             <p class="text-[#546681] font-semibold text-lg">Up to $1,800 Value</p>
@@ -304,7 +224,7 @@
 
                     <!-- Tier 3: iPhone --><div class="flex flex-col bg-white rounded-2xl shadow-lg border border-[#CBDBFF] card-shadow overflow-hidden">
                         <div class="p-6">
-                            <span class="inline-block bg-[#546681] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">TIER 3</span>
+                            <span class="inline-block bg-[#546681] text-white text-lg font-bold px-4 py-2 rounded-full mb-4">TIER 3</span>
                             <h3 class="text-2xl font-bold text-[#193042] mb-2">iPhone® 17 Pro / Pro Max</h3>
                             <p class="text-2xl font-bold text-[#546681] mb-3">1 WINNER</p>
                             <p class="text-[#546681] font-semibold text-lg">Up to $1,325 Value</p>
@@ -334,85 +254,65 @@
                 </div>
             </section>
 
-            <!-- Timeline Section --><section class="mb-8 md:mb-12">
+            <!-- Timeline Section - Completely redesigned --><section class="mb-8 md:mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-[#1c1763] text-center mb-6">Giveaway Timeline</h2>
-                <!-- This container is from the user's provided HTML snippet -->
-                <div class="bg-white rounded-xl shadow-lg p-6 md:p-10">
-                    <div class="py-4 md:py-16">
-                        <div class="timeline-container">
-                            <!-- Timeline Bar & Progress -->
-                            <div class="timeline-bar"></div>
-                            <div id="timeline-progress" class="timeline-progress" style="width: 0%; height: 0%;"></div>
-                            
-                            <!-- Milestones -->
-                            <!-- Changed flex container -->
-                            <div class="flex flex-col md:flex-row md:justify-between space-y-12 md:space-y-0">
-                                
-                                <!-- Milestone 1: Start -->
-                                <div class="timeline-milestone flex-shrink-0" data-milestone="start">
-                                    <div class="milestone-node inactive" id="node-start"> <!-- Node first for vertical flex alignment -->
-                                        <i data-lucide="clock" class="text-white w-6 h-6"></i>
-                                    </div>
-                                    <div class="milestone-card" id="card-start">
-                                        <h3>Nov 2, 12:00 AM PT</h3>
-                                        <p>Promotion & Entry Period Begins (All Tiers)</p>
-                                    </div>
-                                </div>
-
-                                <!-- Milestone 2: Bonus Entries -->
-                                <div class="timeline-milestone flex-shrink-0" data-milestone="bonus">
-                                    <div class="milestone-node inactive" id="node-bonus">
-                                        <i data-lucide="briefcase" class="text-white w-6 h-6"></i>
-                                    </div>
-                                    <div class="milestone-card" id="card-bonus">
-                                        <h3>Nov 2–5</h3>
-                                        <p>Bonus Entries: Book a Demo (+5)</p>
-                                    </div>
-                                </div>
-
-                                <!-- Milestone 3: Conference End -->
-                                <div class="timeline-milestone flex-shrink-0" data-milestone="end">
-                                    <!-- Wrapper for node and text -->
-                                    <div class="flex-shrink-0 w-14 md:w-auto md:relative flex flex-col items-center">
-                                        <div class="milestone-node inactive" id="node-end" style="flex-shrink: 0;">
-                                            <i data-lucide="calendar-check" class="text-white w-6 h-6"></i>
-                                        </div>
-                                        <!-- New Text Block -->
-                                        <div id="milestone-3-text" class="w-48 text-center md:absolute md:top-16 md:left-1/2 md:-translate-x-1/2">
-                                            <p class="text-lg font-bold text-[#1c1763] pt-2">Tier 1 Winner Announced!</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="milestone-card" id="card-end">
-                                        <h3>Nov 5, 5:00 PM PT</h3>
-                                        <p>Entry Period Closes.</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Milestone 4: Demo Window End -->
-                                <div class="timeline-milestone flex-shrink-0" data-milestone="demo-end">
-                                    <div class="milestone-node inactive" id="node-demo-end">
-                                        <i data-lucide="award" class="text-white w-6 h-6"></i>
-                                    </div>
-                                    <div class="milestone-card" id="card-demo-end">
-                                        <h3>Nov 14, 11:59 PM PT</h3>
-                                        <p>Tier 2 & 3 Bonus Window Ends (+20 for attending)</p>
-                                    </div>
-                                </div>
-
-                                <!-- Milestone 5: Winners Announced -->
-                                <div class="timeline-milestone flex-shrink-0" data-milestone="announce">
-                                    <div class="milestone-node inactive" id="node-announce">
-                                        <i data-lucide="trophy" class="text-white w-6 h-6"></i>
-                                    </div>
-                                    <div class="milestone-card" id="card-announce">
-                                        <h3>By Nov 21</h3>
-                                        <p>Tier 2 & 3 Winners Announced</p>
-                                    </div>
-                                </div>
-
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-10 flex justify-center">
+                    <div class="new-timeline-wrapper">
+                        <div class="new-timeline-line"></div>
+                        <div id="new-timeline-progress-line" class="new-timeline-progress-line"></div>
+                        
+                        <!-- Milestone 1: Start --><div class="new-timeline-item" data-milestone="start">
+                            <div class="new-timeline-dot" id="node-start">
+                                <i data-lucide="calendar-plus" class="text-white w-6 h-6"></i>
+                            </div>
+                            <div class="new-timeline-content">
+                                <h3>Nov 2, 12:00 AM PT</h3>
+                                <p>Promotion & Entry Period Begins (All Tiers)</p>
                             </div>
                         </div>
+
+                        <!-- Milestone 2: Bonus Entries --><div class="new-timeline-item" data-milestone="bonus">
+                            <div class="new-timeline-dot" id="node-bonus">
+                                <i data-lucide="briefcase" class="text-white w-6 h-6"></i>
+                            </div>
+                            <div class="new-timeline-content">
+                                <h3>Nov 2–5</h3>
+                                <p>Bonus Entries: Book a Demo (+5)</p>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 3: Conference End & Tier 1 Announcement --><div class="new-timeline-item" data-milestone="conference-end">
+                            <div class="new-timeline-dot" id="node-conference-end">
+                                <i data-lucide="calendar-check" class="text-white w-6 h-6"></i>
+                            </div>
+                            <div class="new-timeline-content">
+                                <h3>Nov 5, 5:00 PM PT</h3>
+                                <p>Entry Period Closes.</p>
+                                <p class="new-timeline-announcement">Tier 1 Winner Announced!</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Milestone 4: Demo Window End --><div class="new-timeline-item" data-milestone="demo-end">
+                            <div class="new-timeline-dot" id="node-demo-end">
+                                <i data-lucide="award" class="text-white w-6 h-6"></i>
+                            </div>
+                            <div class="new-timeline-content">
+                                <h3>Nov 14, 11:59 PM PT</h3>
+                                <p>Tier 2 & 3 Bonus Window Ends (+20 for attending)</p>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 5: Winners Announced --><div class="new-timeline-item" data-milestone="announce">
+                            <div class="new-timeline-dot" id="node-announce">
+                                <i data-lucide="trophy" class="text-white w-6 h-6"></i>
+                            </div>
+                            <div class="new-timeline-content">
+                                <h3>By Nov 21</h3>
+                                <p>Final drawing complete.</p>
+                                <p class="new-timeline-announcement">Tier 2 & 3 Winners Announced!</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -443,127 +343,133 @@
 
     </div>
 
-    <!-- SCRIPT FOR TIMELINE WIDGET -->
-    <script>
+    <!-- SCRIPT FOR TIMELINE WIDGET --><script>
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize Lucide icons
             lucide.createIcons();
 
             // --- Define Key Dates ---
-            // Note: We use the system's local time interpretation of these strings.
-            // For a production app, we'd parse with explicit timezones.
-            // PT transitions from PDT (UTC-7) to PST (UTC-8) on Nov 2, 2025.
             const DATES = {
                 START: new Date('2025-11-02T00:00:00-07:00'), // 12:00 AM PDT
+                BONUS_END: new Date('2025-11-05T00:00:00-08:00'), // Start of Nov 5, for booking bonus
                 CONFERENCE_END: new Date('2025-11-05T17:00:00-08:00'), // 5:00 PM PST
                 DEMO_WINDOW_END: new Date('2025-11-14T23:59:59-08:00'), // 11:59 PM PST
                 TIER_2_3_ANNOUNCE: new Date('2025-11-21T23:59:59-08:00'), // End of day
                 // *** This is the "current" time, set per user request ***
-                NOW: new Date('2025-10-31T15:35:00-07:00') // October 31st, 3:35 PM PDT
+                NOW: new Date('2025-11-02T23:14:28-08:00') // November 2nd, 11:14 PM PST
                 // To test other dates, uncomment one of the lines below:
-                // NOW: new Date('2025-11-03T10:00:00-08:00') // During conference
-                // NOW: new Date('2025-11-10T10:00:00-08:00') // Demo window open
-                // NOW: new Date('2025-11-20T10:00:00-08:00') // After demo, before announce
+                // NOW: new Date('2025-10-31T15:35:00-07:00') // Before start
+                // NOW: new Date('2025-11-03T10:00:00-08:00') // During conference, bonus active
+                // NOW: new Date('2025-11-06T10:00:00-08:00') // After conference, demo window open
+                // NOW: new Date('2025-11-15T10:00:00-08:00') // After demo window, before announce
                 // NOW: new Date('2025-11-22T10:00:00-08:00') // All over
             };
             
-            const TOTAL_DURATION = DATES.TIER_2_3_ANNOUNCE.getTime() - DATES.START.getTime();
+            const timelineItems = document.querySelectorAll('.new-timeline-item');
+            const progressLine = document.getElementById('new-timeline-progress-line');
 
-            // --- UI Elements ---
-            const timelineProgress = document.getElementById('timeline-progress');
-            
-            // --- New variable ---
-            let isMobile = window.innerWidth < 768;
-            window.addEventListener('resize', () => {
-                isMobile = window.innerWidth < 768;
-                updateTimeline(true); // Force update on resize
-            });
+            function updateTimelineState() {
+                const now = DATES.NOW;
+                let activeNodeIndex = -1;
 
-            // --- Helper Functions ---
-            function setActiveMilestone(milestoneId) {
-                // Remove 'active' from all
-                document.querySelectorAll('.milestone-node, .milestone-card').forEach(el => {
-                    el.classList.remove('active');
-                    if (el.classList.contains('milestone-node')) {
-                        el.classList.add('inactive');
+                // Determine active state for nodes and content
+                if (now >= DATES.START) {
+                    document.getElementById('node-start').classList.add('active');
+                    activeNodeIndex = 0;
+                }
+                if (now >= DATES.BONUS_END) { // Changed condition for bonus end (booking bonus ends when Nov 5 starts)
+                    document.getElementById('node-bonus').classList.add('active');
+                    activeNodeIndex = 1;
+                }
+                if (now >= DATES.CONFERENCE_END) {
+                    document.getElementById('node-conference-end').classList.add('active');
+                    activeNodeIndex = 2;
+                }
+                if (now >= DATES.DEMO_WINDOW_END) {
+                    document.getElementById('node-demo-end').classList.add('active');
+                    activeNodeIndex = 3;
+                }
+                if (now >= DATES.TIER_2_3_ANNOUNCE) {
+                    document.getElementById('node-announce').classList.add('active');
+                    activeNodeIndex = 4;
+                }
+
+                // Calculate progress line height
+                let totalHeight = 0;
+                let currentProgressHeight = 0;
+
+                for (let i = 0; i < timelineItems.length; i++) {
+                    const item = timelineItems[i];
+                    totalHeight += item.offsetHeight; // Height of the item (content + margin)
+
+                    // If this is the active node or a past node, accumulate height for progress line
+                    if (i <= activeNodeIndex) {
+                        currentProgressHeight += item.offsetHeight;
+                    }
+                    // For the actively progressing segment, calculate partial height
+                    if (i === activeNodeIndex && activeNodeIndex < timelineItems.length - 1) {
+                        const nextItemTop = timelineItems[i+1].offsetTop;
+                        const currentItemTop = item.offsetTop;
+                        const currentItemHeight = item.offsetHeight;
+
+                        let segmentStart = 0; // Relative to current item
+                        let segmentEnd = currentItemHeight; // Relative to current item
+
+                        // Get the current date's position within the active segment
+                        let segmentProgress = 0;
+                        let segmentDuration = 0;
+                        let segmentElapsed = 0;
+
+                        if (activeNodeIndex === 0) { // Between START and BONUS_END
+                            segmentDuration = DATES.BONUS_END.getTime() - DATES.START.getTime();
+                            segmentElapsed = now.getTime() - DATES.START.getTime();
+                        } else if (activeNodeIndex === 1) { // Between BONUS_END and CONFERENCE_END
+                            segmentDuration = DATES.CONFERENCE_END.getTime() - DATES.BONUS_END.getTime();
+                            segmentElapsed = now.getTime() - DATES.BONUS_END.getTime();
+                        } else if (activeNodeIndex === 2) { // Between CONFERENCE_END and DEMO_WINDOW_END
+                            segmentDuration = DATES.DEMO_WINDOW_END.getTime() - DATES.CONFERENCE_END.getTime();
+                            segmentElapsed = now.getTime() - DATES.CONFERENCE_END.getTime();
+                        } else if (activeNodeIndex === 3) { // Between DEMO_WINDOW_END and TIER_2_3_ANNOUNCE
+                            segmentDuration = DATES.TIER_2_3_ANNOUNCE.getTime() - DATES.DEMO_WINDOW_END.getTime();
+                            segmentElapsed = now.getTime() - DATES.DEMO_WINDOW_END.getTime();
+                        }
+
+                        if (segmentDuration > 0) {
+                            segmentProgress = Math.min(1, Math.max(0, segmentElapsed / segmentDuration));
+                        } else {
+                            segmentProgress = 1; // If duration is 0, instantly complete
+                        }
+                        
+                        // Calculate partial height within the current segment
+                        const partialSegmentHeight = (nextItemTop - currentItemTop) * segmentProgress;
+                        currentProgressHeight = currentItemTop + partialSegmentHeight;
+                    }
+                }
+                
+                // Ensure the progress line doesn't extend beyond the last node if not yet at 100%
+                const lastDotOffset = timelineItems[timelineItems.length - 1].offsetTop + 20; // Center of last dot
+                if (now < DATES.TIER_2_3_ANNOUNCE) {
+                    progressLine.style.height = `${Math.min(currentProgressHeight, lastDotOffset)}px`;
+                } else {
+                    progressLine.style.height = `${lastDotOffset}px`; // Go to end of line if all complete
+                }
+
+                // Add active class to timeline cards
+                document.querySelectorAll('.new-timeline-item').forEach((item, index) => {
+                    if (index <= activeNodeIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
                     }
                 });
-
-                if (milestoneId) {
-                    const node = document.getElementById(`node-${milestoneId}`);
-                    const card = document.getElementById(`card-${milestoneId}`);
-                    if (node && card) {
-                        node.classList.add('active');
-                        node.classList.remove('inactive');
-                        card.classList.add('active');
-                    }
-                }
             }
 
-            function setProgress(currentDate) {
-                if (currentDate < DATES.START) {
-                    return 0;
-                }
-                if (currentDate > DATES.TIER_2_3_ANNOUNCE) {
-                    return 100;
-                }
-                const elapsed = currentDate.getTime() - DATES.START.getTime();
-                return (elapsed / TOTAL_DURATION) * 100;
-            }
-
-            // --- Main Logic ---
-            let lastProgressPercent = -1; // To avoid re-running on resize if unchanged
-            function updateTimeline(force = false) {
-                const now = DATES.NOW;
-                let progressPercent = 0;
-                let activeMilestone = null;
-
-                if (now < DATES.START) {
-                    activeMilestone = null;
-                    progressPercent = 0;
-
-                } else if (now >= DATES.START && now <= DATES.CONFERENCE_END) {
-                    activeMilestone = 'bonus';
-                    progressPercent = setProgress(now);
-
-                } else if (now > DATES.CONFERENCE_END && now <= DATES.DEMO_WINDOW_END) {
-                    activeMilestone = 'demo-end';
-                    progressPercent = setProgress(now);
-
-                } else if (now > DATES.DEMO_WINDOW_END && now <= DATES.TIER_2_3_ANNOUNCE) {
-                    activeMilestone = 'announce';
-                    progressPercent = setProgress(now);
-
-                } else {
-                    activeMilestone = 'announce';
-                    progressPercent = 100;
-                }
-                
-                // Only update DOM if state changed or forced
-                if (progressPercent !== lastProgressPercent || force) {
-                    setActiveMilestone(activeMilestone);
-                
-                    // Visually "complete" past milestones
-                    if (now >= DATES.START) document.getElementById('node-start').classList.add('active');
-                    if (now >= DATES.CONFERENCE_END) document.getElementById('node-end').classList.add('active');
-                    if (now >= DATES.DEMO_WINDOW_END) document.getElementById('node-demo-end').classList.add('active');
-                    if (now >= DATES.TIER_2_3_ANNOUNCE) document.getElementById('node-announce').classList.add('active');
-
-                    // Update progress bar
-                    if (isMobile) {
-                        timelineProgress.style.width = '8px';
-                        timelineProgress.style.height = `${progressPercent}%`;
-                    } else {
-                        timelineProgress.style.height = '8px';
-                        timelineProgress.style.width = `${progressPercent}%`;
-                    }
-                    lastProgressPercent = progressPercent;
-                }
-            }
-
-            // Initial load
-            updateTimeline();
+            // Initial call and update on resize
+            updateTimelineState();
+            window.addEventListener('resize', updateTimelineState);
         });
     </script>
 </body>
 </html>
+
+
